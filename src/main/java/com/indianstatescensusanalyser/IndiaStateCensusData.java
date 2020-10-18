@@ -1,10 +1,15 @@
 package com.indianstatescensusanalyser;
 
-public class IndiaStateCensusData {
+import com.opencsv.bean.CsvBindByName;
 
+public class IndiaStateCensusData {
+	@CsvBindByName(column = "State")
 	private String state;
+	@CsvBindByName(column = "Population")
 	private String population;
+	@CsvBindByName(column = "AreaInSqKm")
 	private String areaInSqKm;
+	@CsvBindByName(column = "DensityPerSqKm")
 	private String densityPerSqKm;
 	public IndiaStateCensusData(String state, String population, String areaInSqKm, String densityPerSqKm) {
 		this.state=state;

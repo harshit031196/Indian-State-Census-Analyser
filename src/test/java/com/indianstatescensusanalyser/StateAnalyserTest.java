@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 import com.indianstatescensusanalyser.CSVStateCensus.IOStateCensusAnalyser;
 public class StateAnalyserTest extends TestCase {
 	@Test
-	public void test() throws IOException {
+	public void test() throws IOException, AnalyserException {
 		CSVStateCensus stateCensus = new CSVStateCensus();
 		int count=stateCensus.readFromCSVFile(IOStateCensusAnalyser.FILE_IO);
 		Assert.assertEquals(29, count);
