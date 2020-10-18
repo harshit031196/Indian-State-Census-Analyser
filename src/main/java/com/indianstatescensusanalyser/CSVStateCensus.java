@@ -20,6 +20,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 public class CSVStateCensus {
 
 	private static final String STRING_READ_SAMPLE = "IndiaStateCensusData - IndiaStateCensusData.csv";
+	private static final String STRING_READ_SAMPLE_NEW = "IndiaStateCode - IndiaStateCode.csv";
 	public enum IOStateCensusAnalyser {
 		CONSOLE_IO, FILE_IO, DB_IO, REST_IO
 	}
@@ -32,14 +33,14 @@ public class CSVStateCensus {
 	}
 
 	public int readToCSV() throws IOException, AnalyserException{
-		List<IndiaStateCensusData> data = new ArrayList<IndiaStateCensusData>();
+		List<IndianStateCode> data = new ArrayList<IndianStateCode>();
 		int count=0;
-		try(Reader reader = Files.newBufferedReader(Paths.get(STRING_READ_SAMPLE))){
-			CsvToBeanBuilder<IndiaStateCensusData> csvToBeanBuilder = new CsvToBeanBuilder<IndiaStateCensusData>(reader);
-			csvToBeanBuilder.withType(IndiaStateCensusData.class);
+		try(Reader reader = Files.newBufferedReader(Paths.get(STRING_READ_SAMPLE_NEW))){
+			CsvToBeanBuilder<IndianStateCode> csvToBeanBuilder = new CsvToBeanBuilder<IndianStateCode>(reader);
+			csvToBeanBuilder.withType(IndianStateCode.class);
 			csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-			CsvToBean<IndiaStateCensusData> csvToBean = csvToBeanBuilder.build();
-			Iterator<IndiaStateCensusData> objectIterator = csvToBean.iterator();
+			CsvToBean<IndianStateCode> csvToBean = csvToBeanBuilder.build();
+			Iterator<IndianStateCode> objectIterator = csvToBean.iterator();
 			CSVReader csvReader = new CSVReader(reader);
 			while (objectIterator.hasNext()) {	
 				if(objectIterator.next()!=null) 
