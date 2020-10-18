@@ -1,9 +1,0 @@
-#Ignore Project files
-.project
-
-#Ignore ClassPath
-.classpath
-
-.settings
-
-target/
