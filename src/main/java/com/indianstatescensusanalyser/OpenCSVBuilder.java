@@ -11,9 +11,9 @@ import com.indianstatescensusanalyser.AnalyserException.AnalyserExceptionType;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
-public class OpenCSVBuilder {
+public class OpenCSVBuilder<E> implements ICSVBuilder<E> {
 	
-	public <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass, String filePath)
+	public  Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass, String filePath)
 			throws AnalyserException {
 		try {
 			if (!((filePath.split("\\.")[1]).equals("csv"))) {

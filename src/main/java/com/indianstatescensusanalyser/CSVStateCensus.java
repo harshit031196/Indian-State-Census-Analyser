@@ -13,7 +13,8 @@ public class CSVStateCensus {
 
 	public int loadStateCensusData(String filePath) throws AnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(filePath));) {
-			Iterator<IndiaStateCensusData> iterator = new OpenCSVBuilder().getCSVFileIterator(reader, IndiaStateCensusData.class, filePath);
+			ICSVBuilder<IndiaStateCensusData> csvBuilder = CSVBuilderFactory.createCSVBuilder();
+			Iterator<IndiaStateCensusData> iterator = csvBuilder.getCSVFileIterator(reader, IndiaStateCensusData.class, filePath);
 			return getCount(iterator);
 		} catch (IOException e) {
 			throw new AnalyserException(AnalyserExceptionType.FILE_PROBLEM, "File problem encountered");
@@ -22,7 +23,8 @@ public class CSVStateCensus {
 
 	public int loadStateCodeData(String filePath) throws AnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(filePath));) {
-			Iterator<IndianStateCode> iterator = new OpenCSVBuilder().getCSVFileIterator(reader, IndianStateCode.class, filePath);
+			ICSVBuilder<IndianStateCode> csvBuilder = CSVBuilderFactory.createCSVBuilder();
+			Iterator<IndianStateCode> iterator = csvBuilder.getCSVFileIterator(reader, IndianStateCode.class, filePath);
 			return getCount(iterator);
 		} catch (IOException e) {
 			throw new AnalyserException(AnalyserExceptionType.FILE_PROBLEM, "File problem encountered");
