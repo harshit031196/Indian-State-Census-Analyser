@@ -3,6 +3,9 @@ package com.indianstatescensusanalyser;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.indianstatescensusanalyser.csvbuilder.AnalyserException;
+import com.indianstatescensusanalyser.indianstatecensusanalyser.CSVStateCensus;
+
 import junit.framework.TestCase;
 public class StateAnalyserTest extends TestCase {
 	private static final String STATE_CENSUS_FILE_PATH = "IndianStateCensusData.csv";

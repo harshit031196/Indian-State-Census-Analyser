@@ -1,4 +1,4 @@
-package com.indianstatescensusanalyser;
+package com.indianstatescensusanalyser.csvbuilder;
 
 import java.io.Reader;
 import java.util.Iterator;

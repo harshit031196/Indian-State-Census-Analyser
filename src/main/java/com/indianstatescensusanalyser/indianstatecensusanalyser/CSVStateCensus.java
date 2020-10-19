@@ -1,4 +1,4 @@
-package com.indianstatescensusanalyser;
+package com.indianstatescensusanalyser.indianstatecensusanalyser;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -7,7 +7,10 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.stream.StreamSupport;
 
-import com.indianstatescensusanalyser.AnalyserException.AnalyserExceptionType;
+import com.indianstatescensusanalyser.csvbuilder.AnalyserException;
+import com.indianstatescensusanalyser.csvbuilder.CSVBuilderFactory;
+import com.indianstatescensusanalyser.csvbuilder.ICSVBuilder;
+import com.indianstatescensusanalyser.csvbuilder.AnalyserException.AnalyserExceptionType;
 
 public class CSVStateCensus {
 

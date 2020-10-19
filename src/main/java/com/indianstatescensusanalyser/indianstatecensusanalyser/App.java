@@ -1,4 +1,4 @@
-package com.indianstatescensusanalyser;
+package com.indianstatescensusanalyser.indianstatecensusanalyser;
 
 /**
  * Hello world!
