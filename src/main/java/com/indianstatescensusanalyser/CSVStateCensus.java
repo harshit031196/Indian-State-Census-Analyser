@@ -34,23 +34,22 @@ public class CSVStateCensus {
 	public int readToCSV() throws IOException, AnalyserException{
 		List<IndiaStateCensusData> data = new ArrayList<IndiaStateCensusData>();
 		int count=0;
-		try(Reader reader = Files.newBufferedReader(Paths.get(STRING_READ_SAMPLE))){
-			CsvToBeanBuilder<IndiaStateCensusData> csvToBeanBuilder = new CsvToBeanBuilder<IndiaStateCensusData>(reader);
-			csvToBeanBuilder.withType(IndiaStateCensusData.class);
-			csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-			CsvToBean<IndiaStateCensusData> csvToBean = csvToBeanBuilder.build();
-			Iterator<IndiaStateCensusData> objectIterator = csvToBean.iterator();
+		try(Reader reader = Files.newBufferedReader(Paths.get(STRING_READ_SAMPLE));){
 			CSVReader csvReader = new CSVReader(reader);
-			while (objectIterator.hasNext()) {	
-				if(objectIterator.next()!=null) 
+			boolean flag=false;
+			String [] nextRecord;
+			while ((nextRecord=csvReader.readNext())!=null) {	
+				if(!flag) {flag=true;continue;}
+				data.add(new IndiaStateCensusData(nextRecord[0],nextRecord[1],nextRecord[2],nextRecord[3]));
 					count++;
 			}
+			System.out.println(data);
 			return count;
 		}catch(IllegalStateException e){
 			throw new AnalyserException(AnalyserExceptionType.INCORRECT_TYPE, e.getMessage());
 		}
 		catch(NoSuchFileException e) {
-			throw new AnalyserException(AnalyserExceptionType.FILE_NOT_FOUND_TYPE,"No file found");
+			throw new AnalyserException(AnalyserExceptionType.FILE_NOT_FOUND_TYPE,e.getMessage());
 		}
 		catch(RuntimeException e) {
 			throw new AnalyserException(AnalyserExceptionType.DELIMITER_OR_HEADER_TYPE,e.getMessage());
