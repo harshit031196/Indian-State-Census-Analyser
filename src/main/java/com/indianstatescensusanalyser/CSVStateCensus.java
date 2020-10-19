@@ -35,17 +35,16 @@ public class CSVStateCensus {
 	public int readToCSV() throws IOException, AnalyserException{
 		List<IndianStateCode> data = new ArrayList<IndianStateCode>();
 		int count=0;
-		try(Reader reader = Files.newBufferedReader(Paths.get(STRING_READ_SAMPLE_NEW))){
-			CsvToBeanBuilder<IndianStateCode> csvToBeanBuilder = new CsvToBeanBuilder<IndianStateCode>(reader);
-			csvToBeanBuilder.withType(IndianStateCode.class);
-			csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-			CsvToBean<IndianStateCode> csvToBean = csvToBeanBuilder.build();
-			Iterator<IndianStateCode> objectIterator = csvToBean.iterator();
+		try(Reader reader = Files.newBufferedReader(Paths.get(STRING_READ_SAMPLE_NEW));){
 			CSVReader csvReader = new CSVReader(reader);
-			while (objectIterator.hasNext()) {	
-				if(objectIterator.next()!=null) 
+			boolean flag=false;
+			String [] nextRecord;
+			while ((nextRecord=csvReader.readNext())!=null) {	
+				if(!flag) {flag=true;continue;}
+				data.add(new IndiaStateCode(nextRecord[0],nextRecord[1],nextRecord[2],nextRecord[3]));
 					count++;
 			}
+			System.out.println(data);
 			return count;
 		}catch(IllegalStateException e){
 			throw new AnalyserException(AnalyserExceptionType.INCORRECT_TYPE, e.getMessage());
