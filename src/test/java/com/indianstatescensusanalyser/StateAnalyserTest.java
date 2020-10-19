@@ -6,17 +6,17 @@ import org.junit.rules.ExpectedException;
 import junit.framework.TestCase;
 public class StateAnalyserTest extends TestCase {
 	private static final String STATE_CENSUS_FILE_PATH = "IndianStateCensusData.csv";
-	private static final String INCORRECT_STATE_CENSUS_FILE_PATH = "IndianStateCensusData.csv";;
-	private static final String INCORRECT_TYPE_STATE_CENSUS_FILE_PATH = "IndianStateCensusData.csv";;
-	private static final String INCORRECT_DELIMITER_STATE_CENSUS_FILE_PATH = "IndianStateCensusData.csv";;
-	private static final String INCORRECT_HEADER_STATE_CENSUS_FILE_PATH = "IndianStateCensusData.csv";;
+	private static final String INCORRECT_STATE_CENSUS_FILE_PATH = "IndianStateCensusData.csv";
+	private static final String INCORRECT_TYPE_STATE_CENSUS_FILE_PATH = "IndianStateCensusData.csv";
+	private static final String INCORRECT_DELIMITER_STATE_CENSUS_FILE_PATH = "IndianStateCensusData.csv";
+	private static final String INCORRECT_HEADER_STATE_CENSUS_FILE_PATH = "IndianStateCensusData.csv";
 
 	@Test
 	public void givenCensusFileShouldReturnCorrectNumberOfEnteries() {
 		CSVStateCensus csvStateCensus = new CSVStateCensus();
 		try {
 			int entries = csvStateCensus.loadStateCensusData(STATE_CENSUS_FILE_PATH);
-			assertEquals(36, entries);
+			assertEquals(29, entries);
 		} catch (AnalyserException e) {
 
 		}
