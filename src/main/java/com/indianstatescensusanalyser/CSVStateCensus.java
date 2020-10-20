@@ -59,8 +59,8 @@ public class CSVStateCensus {
 	public boolean isCorrectHeader(String filePath) throws AnalyserException {
 		try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(filePath));) {
 			String[] headerColumns = bufferedReader.readLine().split(",");
-			if (!headerColumns[1].equals("State Name") || !headerColumns[2].equals("TIN")
-					|| !headerColumns[3].equals("Population") || !headerColumns[4].equals("State Code"))
+			if (!headerColumns[1].equals("State") || !headerColumns[2].equals("Poplulation")
+					|| !headerColumns[3].equals("AreaInSqKm") || !headerColumns[4].equals("DensityPerSqKm"))
 				return false;
 		} catch (IOException e) {
 			throw new AnalyserException(AnalyserExceptionType.FILE_PROBLEM, "File Problem Occured");
