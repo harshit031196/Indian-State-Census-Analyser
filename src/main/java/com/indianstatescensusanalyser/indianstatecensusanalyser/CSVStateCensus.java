@@ -5,6 +5,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.StreamSupport;
 
 import com.indianstatescensusanalyser.csvbuilder.AnalyserException;
@@ -27,8 +28,8 @@ public class CSVStateCensus {
 	public int loadStateCodeData(String filePath) throws AnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(filePath));) {
 			ICSVBuilder<IndianStateCode> csvBuilder = CSVBuilderFactory.createCSVBuilder();
-			Iterator<IndianStateCode> iterator = csvBuilder.getCSVFileIterator(reader, IndianStateCode.class, filePath);
-			return getCount(iterator);
+			List<IndianStateCode> stateCensusList = csvBuilder.getCSVFileList(reader, IndianStateCode.class, filePath);
+			return stateCensusList.size();
 		} catch (IOException e) {
 			throw new AnalyserException(AnalyserExceptionType.FILE_PROBLEM, "File problem encountered");
 		}
