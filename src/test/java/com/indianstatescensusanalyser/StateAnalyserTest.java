@@ -1,10 +1,13 @@
 package com.indianstatescensusanalyser;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.google.gson.Gson;
 import com.indianstatescensusanalyser.csvbuilder.AnalyserException;
 import com.indianstatescensusanalyser.indianstatecensusanalyser.CSVStateCensus;
+import com.indianstatescensusanalyser.indianstatecensusanalyser.IndiaStateCensusData;
 
 import junit.framework.TestCase;
 public class StateAnalyserTest extends TestCase {
@@ -13,6 +16,15 @@ public class StateAnalyserTest extends TestCase {
 	private static final String INCORRECT_TYPE_STATE_CENSUS_FILE_PATH = "IndianStateCensusData.csv";
 	private static final String INCORRECT_DELIMITER_STATE_CENSUS_FILE_PATH = "IndianStateCensusData.csv";
 	private static final String INCORRECT_HEADER_STATE_CENSUS_FILE_PATH = "IndianStateCensusData.csv";
+	
+private CSVStateCensus stateCensusAnalyser;	
+	
+	@Before
+	public void setup() {
+		stateCensusAnalyser = new CSVStateCensus();
+		ExpectedException exceptionRule = ExpectedException.none();
+		exceptionRule.expect(AnalyserException.class);
+	}
 
 	@Test
 	public void givenCensusFileShouldReturnCorrectNumberOfEnteries() {
@@ -23,6 +35,20 @@ public class StateAnalyserTest extends TestCase {
 		} catch (AnalyserException e) {
 
 		}
+	}
+	
+	@Test
+	public void givenCensusFileWhenSortedShouldReturnTheSortedList() {
+		try {
+			String stateWiseSortedString = stateCensusAnalyser.getSortedDataStateWise(STATE_CENSUS_FILE_PATH);
+			IndiaStateCensusData[] censusArray = new Gson().fromJson(stateWiseSortedString, IndiaStateCensusData[].class);
+			int size = censusArray.length;
+			assertEquals("Andaman and Nicobar Islands", censusArray[0].getState());
+			assertEquals("West Bengal", censusArray[size-1].getState());
+		} catch (AnalyserException e) {
+			
+		}
+		
 	}
 
 	@Test
