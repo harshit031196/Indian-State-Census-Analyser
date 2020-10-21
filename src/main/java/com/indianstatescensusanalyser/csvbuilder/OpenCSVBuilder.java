@@ -6,13 +6,14 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 
 import com.indianstatescensusanalyser.csvbuilder.AnalyserException.AnalyserExceptionType;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 public class OpenCSVBuilder<E> implements ICSVBuilder<E> {
-	
+	@Override
 	public  Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass, String filePath)
 			throws AnalyserException {
 		try {
@@ -33,7 +34,27 @@ public class OpenCSVBuilder<E> implements ICSVBuilder<E> {
 			throw new AnalyserException(AnalyserExceptionType.UNABLE_TO_PARSE, "Unable to parse");
 		}
 	}
-
+	
+	@Override
+	public List<E> getCSVFileList(Reader reader, Class<E> csvClass, String filePath) throws AnalyserException {
+		try {
+			if (!((filePath.split("\\.")[1]).equals("csv"))) {
+				throw new AnalyserException(AnalyserExceptionType.INCORRECT_TYPE, "Incorrect file type");
+			}
+			if (!isCorrectDelimiter(filePath)) {
+				throw new AnalyserException(AnalyserExceptionType.INCORRECT_DELIMITER, "File contains Invalid Delimiter");
+			}
+			if (!isCorrectHeader(filePath)) {
+				throw new AnalyserException(AnalyserExceptionType.INCORRECT_HEADER, "Incorrect Header");
+			}
+			CsvToBean<E> csvToBean = new CsvToBeanBuilder<E>(reader).withType(csvClass)
+					                                                .withIgnoreLeadingWhiteSpace(true)
+					                                                .build();
+			return csvToBean.parse();
+		} catch (IllegalStateException e) {
+			throw new AnalyserException(AnalyserExceptionType.UNABLE_TO_PARSE, "Unable to parse");
+		}
+	}
 	public boolean isCorrectHeader(String filePath) throws AnalyserException {
 		try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(filePath));) {
 			String[] headerColumns = bufferedReader.readLine().split(",");
@@ -45,7 +66,6 @@ public class OpenCSVBuilder<E> implements ICSVBuilder<E> {
 		}
 		return true;
 	}
-
 	public boolean isCorrectDelimiter(String filePath) throws AnalyserException {
 		try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(filePath));) {
 			String[] headerColumns = bufferedReader.readLine().split(",");
@@ -57,4 +77,6 @@ public class OpenCSVBuilder<E> implements ICSVBuilder<E> {
 		}
 		return true;
 	}
+
+	
 }

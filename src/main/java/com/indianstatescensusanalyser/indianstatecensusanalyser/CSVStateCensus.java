@@ -18,8 +18,8 @@ public class CSVStateCensus {
 	public int loadStateCensusData(String filePath) throws AnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(filePath));) {
 			ICSVBuilder<IndiaStateCensusData> csvBuilder = CSVBuilderFactory.createCSVBuilder();
-			Iterator<IndiaStateCensusData> iterator = csvBuilder.getCSVFileIterator(reader, IndiaStateCensusData.class, filePath);
-			return getCount(iterator);
+			List<IndiaStateCensusData> list = csvBuilder.getCSVFileList(reader, IndiaStateCensusData.class, filePath);
+			return list.size();
 		} catch (IOException e) {
 			throw new AnalyserException(AnalyserExceptionType.FILE_PROBLEM, "File problem encountered");
 		}
@@ -35,9 +35,4 @@ public class CSVStateCensus {
 		}
 	}
 
-
-	private <E> int getCount(Iterator<E> iterator) {
-		Iterable<E> csvIterable = () -> iterator;
-		return (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
-	}
 }
