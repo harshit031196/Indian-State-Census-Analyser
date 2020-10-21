@@ -18,7 +18,7 @@ import com.indianstatescensusanalyser.csvbuilder.ICSVBuilder;
 public class CSVStateCensus {
 
 	List<IndianStateCode> censusDataList = null;
-	List<IndianStateCode> stateDataList =  null;
+	List<IndiaStateCensusData> stateDataList =  null;
 	
 	public int loadStateCensusData(String filePath) throws AnalyserException {
 		censusDataList = getCSVList(filePath, IndiaStateCensusData.class);
@@ -55,6 +55,17 @@ public class CSVStateCensus {
 		Comparator<IndianStateCode> comparator = Comparator.comparing(indianStateCode -> indianStateCode.getStateCode());
 		censusDataList.sort(comparator);
 		return getListAsJsonString(censusDataList);
+	}
+	
+	public String getPopulationWiseSortedDataInDecendingOrder() throws CensusAnalyserException {
+		if(censusDataList == null || censusDataList.size() == 0) {
+			throw new CensusAnalyserException("Census Data Not Found", CensusAnalyserException.ExceptionType.NO_DATA_FOUND);
+		}
+		Comparator<IndiaStateCensusData> comparator = Comparator.comparing(indianStateCode -> indianStateCode.getPopulation());
+		stateDataList.sort(comparator.reversed());
+		String sortedCensusJsonString = getListAsJsonString(stateDataList);
+		new CensusAnalyserFileIOService().writeJSONFile("PopulationWiseSortedData", sortedCensusJsonString);
+		return sortedCensusJsonString;
 	}
 	
 	private String getListAsJsonString(List list) {
